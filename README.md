@@ -1,4 +1,10 @@
-# PokéArchiv Version 5 – iPhone / GitHub Pages
+# PokéArchiv Version 5.3 – Korrektur der Texterkennung
+
+Die Erkennung versucht zunächst den zentralen Kartenbereich (für Karten auf Tischen) und anschließend das ganze Bild (für bildfüllende Live-Aufnahmen). Titelzone und Nummernzone werden kleiner zugeschnitten und separat gelesen. OCR-Zufallstexte mit geringer Konfidenz werden nicht als Kartentitel übernommen. Die erkannten Daten müssen weiterhin vor dem Suchen und Speichern bestätigt werden. Die Erkennung bleibt abhängig von Bildausschnitt, Lesbarkeit und iPhone-OCR; es gibt keine Garantie für automatische Identifikation.
+
+**Update:** Vorher JSON-Backup erstellen, Dateien im bestehenden GitHub-Pages-Repository austauschen und Website-Daten nicht löschen. Die IndexedDB-Datenbank bleibt unverändert. Offline-Funktionen, Serienscan, Preise und Exporte bleiben erhalten.
+
+# PokéArchiv Version 5.2 – iPhone / GitHub Pages
 
 **Update von v4:** Bestehenden Repository-Pfad und GitHub-Pages-Domain beibehalten. Vor dem Update **JSON-Backup** aus v4 erstellen und außerhalb des Geräts sichern. Nur App-Dateien ersetzen; **nicht** Safari-Website-Daten löschen. Nach dem ersten Start online laden, damit Service Worker den v5-Cache installiert.
 
@@ -34,3 +40,15 @@ TCGdex liefert Katalogdaten/Bilder und ggf. Cardmarket-Euro-Preisfelder. Fehlend
 - Versionskennzeichen der PWA-Caches erneuert, sodass GitHub-Pages-Updates neu installiert werden.
 
 **Testumfang:** JavaScript-Syntax, HTML-Element-Verknüpfungen, PWA-Dateien und Cache-Übereinstimmung sowie isolierte Tests für CSV-Escaping, CSV-Parsing und Preisberechnung erfolgreich. Vollständige Kamera-/OCR-End-to-End-Tests und iOS-Safari-Tests waren in der Testumgebung nicht möglich. Vor der Aktualisierung unbedingt JSON-Backup exportieren.
+
+
+## Version 5.2 – Präzisere Erkennung (6. November 2026)
+
+- Erkennung wertet nur noch den oberen Titelbereich für Namensvorschläge und den unteren Nummernbereich für die Kartennummer aus.
+- Filter für gewöhnliche Begriffe aus Pokémon-Karten und Mindestvertrauen: bei unklarer Erkennung bleibt das Namensfeld leer, statt frei erfundene Namen zu übernehmen.
+- Keine automatische Online-Suche unmittelbar nach Kameraaufnahme oder Serienscan: Namen und Nummern müssen zuerst kontrolliert und die Suche ausdrücklich gestartet werden.
+- TCGdex-Suche filtert Kartennummern exakt über `localId` (statt Karten anderer Nummern als angebliche Treffer einzusortieren), fragt Deutsch und Englisch ab und dedupliziert Ergebnisse.
+- Live-Kamera analysiert nur den innerhalb des Suchrahmens gezeigten Bereich statt des gesamten Bildhintergrunds.
+- PWA-Cache-Version aktualisiert.
+
+**Einschränkung:** Reine OCR kann komplexe illustrierte Karten nicht immer korrekt erkennen. Zur eindeutigen Bestimmung können Name + Nummer noch mehrere Sets ergeben: Ausgabe anhand des Kartenbildes bestätigen. Ohne Gerätefotos ist die Erkennungsqualität noch nicht auf realen iPhone-Aufnahmen validiert.
